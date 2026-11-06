@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Spanish Journey - Mobile All-in-One (Units 1-5)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1329;
+      --card: #152238;
+      --card-hover: #1e2f4d;
+      --border: #233554;
+      --primary: #f97316;
+      --primary-light: #fdba74;
+      --primary-glow: rgba(249, 115, 22, 0.25);
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.2);
+      --success: #22c55e;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --nav-height: 64px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: calc(var(--nav-height) + 24px);
+      min-height: 100vh;
+      user-select: none;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 1rem 1rem 2rem;
+    }
+
+    /* Sticky Mobile Top Header */
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 1rem;
+      background: rgba(11, 19, 41, 0.95);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: linear-gradient(135deg, #fff 40%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .voice-quick-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .speed-btn-pill {
+      background: #152238;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 9999px;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .speed-btn-pill.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* Unit Quick Switcher Ribbon */
+    .unit-ribbon {
+      display: flex;
+      overflow-x: auto;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      scrollbar-width: none;
+    }
+    .unit-ribbon::-webkit-scrollbar { display: none; }
+
+    .unit-pill {
+      flex: 0 0 auto;
+      background: #0b1329;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+    }
+
+    .unit-pill.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 10px var(--primary-glow);
+    }
+
+    /* Views / Panels */
+    .view-panel {
+      display: none;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+    .view-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Unit Header Banner */
+    .unit-banner {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(56, 189, 248, 0.1) 100%);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin: 1.25rem 0;
+      text-align: center;
+    }
+
+    .unit-badge {
+      display: inline-block;
+      padding: 0.2rem 0.75rem;
+      background: var(--primary-glow);
+      color: var(--primary-light);
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .unit-banner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.3rem;
+    }
+
+    .unit-banner p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Reusable Section Styles */
+    .section-block {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .block-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.3rem;
+    }
+
+    .block-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    /* Cards & Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 0.6rem;
+    }
+
+    .tap-card {
+      background: #0b1329;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 0.75rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      touch-action: manipulation;
+    }
+
+    .tap-card:active {
+      transform: scale(0.96);
+      border-color: var(--primary);
+    }
+
+    .tap-card.is-vowel {
+      border-color: rgba(249, 115, 22, 0.4);
+      background: rgba(249, 115, 22, 0.08);
+    }
+
+    .glyph-big {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.2rem;
+    }
+    .tap-card.is-vowel .glyph-big { color: var(--primary-light); }
+
+    .glyph-sub {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .glyph-hint {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* Row Card for Phrases */
+    .phrase-row {
+      background: #0b1329;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .phrase-row:active {
+      background: #152238;
+      border-color: var(--primary);
+    }
+
+    .phrase-es {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .phrase-en {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .btn-audio-mini {
+      background: rgba(249, 115, 22, 0.15);
+      color: var(--primary-light);
+      border: 1px solid rgba(249, 115, 22, 0.35);
+      border-radius: 9999px;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Interactive Live Builder Box */
+    .builder-box {
+      background: #0b1329;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.15rem;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .builder-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+      text-align: left;
+    }
+
+    .chip-scroll {
+      display: flex;
+      overflow-x: auto;
+      gap: 0.4rem;
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+      scrollbar-width: none;
+    }
+    .chip-scroll::-webkit-scrollbar { display: none; }
+
+    .chip-btn {
+      flex: 0 0 auto;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .chip-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .builder-screen {
+      background: #050b18;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .builder-es {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.2rem;
+    }
+    .builder-en {
+      font-size: 0.9rem;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .btn-speak-main {
+      background: linear-gradient(135deg, var(--primary), #ea580c);
+      color: #fff;
+      border: none;
+      border-radius: 9999px;
+      padding: 0.6rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      touch-action: manipulation;
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    /* Flashcard Screen */
+    .flashcard-wrapper {
+      padding: 1rem 0;
+      text-align: center;
+    }
+
+    .fc-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem 1.5rem;
+      margin-bottom: 1.5rem;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .fc-tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .fc-word {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.3rem;
+    }
+
+    .fc-tip {
+      font-size: 0.9rem;
+      color: var(--primary-light);
+      margin-bottom: 1rem;
+    }
+
+    .fc-answer {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #86efac;
+      display: none;
+      padding-top: 0.5rem;
+      border-top: 1px dashed rgba(255, 255, 255, 0.15);
+      width: 100%;
+    }
+
+    /* Sticky Bottom App Bar */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: rgba(11, 19, 41, 0.96);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 50;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .nav-tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      cursor: pointer;
+      padding: 0.4rem 0.8rem;
+      touch-action: manipulation;
+    }
+
+    .nav-tab-btn .tab-icon {
+      font-size: 1.25rem;
+    }
+
+    .nav-tab-btn.active {
+      color: var(--primary-light);
+    }
+
+    /* Search & Table for Vocab */
+    .vocab-search-input {
+      width: 100%;
+      background: #0b1329;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: #fff;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      outline: none;
+    }
+
+    .vocab-item-row {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .badge-unit {
+      font-size: 0.65rem;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Mobile Bar -->
+  <header class="top-header">
+    <div class="brand-title">
+      <span>🇪🇸</span> Spanish Journey
+    </div>
+    <div class="voice-quick-toggle">
+      <button class="speed-btn-pill active" id="spd1" onclick="setSpeed(1.0)">1.0x</button>
+      <button class="speed-btn-pill" id="spdSlow" onclick="setSpeed(0.65)">🐢 Slow</button>
+    </div>
+  </header>
+
+  <!-- Unit Switcher Ribbon (Visible when on Lessons tab) -->
+  <div class="unit-ribbon" id="unitRibbon">
+    <button class="unit-pill active" onclick="switchUnit(1, this)">Unit 1: Letters</button>
+    <button class="unit-pill" onclick="switchUnit(2, this)">Unit 2: Sentences</button>
+    <button class="unit-pill" onclick="switchUnit(3, this)">Unit 3: Questions</button>
+    <button class="unit-pill" onclick="switchUnit(4, this)">Unit 4: Food & Dining</button>
+    <button class="unit-pill" onclick="switchUnit(5, this)">Unit 5: Time & Linking</button>
+  </div>
+
+  <div class="container">
+
+    <!-- ==================== TAB 1: LESSONS (Units 1-5) ==================== -->
+    <div id="tab-lessons" class="view-panel active">
+
+      <!-- UNIT 1 -->
+      <div id="unit-view-1" class="unit-section-view">
+        <div class="unit-banner">
+          <span class="unit-badge">Unit 1 • Sound Foundations</span>
+          <h2>The Spanish Alphabet</h2>
+          <p>Tap letters to hear their real Spanish names & vowel sounds.</p>
+        </div>
+
+        <div class="section-block">
+          <div class="block-header"><span>🎯</span> 5 Pure Vowels</div>
+          <div class="block-desc">Always 1 pure sound, never changing.</div>
+          <div class="grid-3">
+            <div class="tap-card is-vowel" onclick="speak('la letra A, a')">
+              <div class="glyph-big">A a</div>
+              <div class="glyph-sub">a</div>
+              <div class="glyph-hint">"ah"</div>
+            </div>
+            <div class="tap-card is-vowel" onclick="speak('la letra E, e')">
+              <div class="glyph-big">E e</div>
+              <div class="glyph-sub">e</div>
+              <div class="glyph-hint">"eh"</div>
+            </div>
+            <div class="tap-card is-vowel" onclick="speak('la letra I, i')">
+              <div class="glyph-big">I i</div>
+              <div class="glyph-sub">i</div>
+              <div class="glyph-hint">"ee"</div>
+            </div>
+            <div class="tap-card is-vowel" onclick="speak('la letra O, o')">
+              <div class="glyph-big">O o</div>
+              <div class="glyph-sub">o</div>
+              <div class="glyph-hint">"oh"</div>
+            </div>
+            <div class="tap-card is-vowel" onclick="speak('la letra U, u')">
+              <div class="glyph-big">U u</div>
+              <div class="glyph-sub">u</div>
+              <div class="glyph-hint">"oo"</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="block-header"><span>🔑</span> 4 Golden Consonant Rules</div>
+          <div class="phrase-row" onclick="speak('¡Hola!')">
+            <div>
+              <div class="phrase-es">H (hache) — ¡Hola!</div>
+              <div class="phrase-en">100% Silent! Say "Oh-lah".</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+          <div class="phrase-row" onclick="speak('Me llamo')">
+            <div>
+              <div class="phrase-es">LL (elle) — Me llamo</div>
+              <div class="phrase-en">Sounds like 'Y' in yes.</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+          <div class="phrase-row" onclick="speak('Mañana')">
+            <div>
+              <div class="phrase-es">Ñ (eñe) — Mañana</div>
+              <div class="phrase-en">Sounds like 'NY' in canyon.</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+          <div class="phrase-row" onclick="speak('Jugo')">
+            <div>
+              <div class="phrase-es">J (jota) — Jugo</div>
+              <div class="phrase-en">Crisp English 'H' sound ("Hoo-go").</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UNIT 2 -->
+      <div id="unit-view-2" class="unit-section-view" style="display:none;">
+        <div class="unit-banner">
+          <span class="unit-badge">Unit 2 • The Lego Method</span>
+          <h2>3 Super-Keys & Sentences</h2>
+          <p>Assemble full Spanish sentences without grammar charts.</p>
+        </div>
+
+        <div class="section-block">
+          <div class="block-header"><span>🔑</span> The 3 Super-Keys</div>
+          <div class="grid-3">
+            <div class="tap-card" onclick="speak('Quiero')">
+              <div class="glyph-big">Quiero</div>
+              <div class="glyph-sub">I want</div>
+            </div>
+            <div class="tap-card" onclick="speak('Necesito')">
+              <div class="glyph-big">Necesito</div>
+              <div class="glyph-sub">I need</div>
+            </div>
+            <div class="tap-card" onclick="speak('Tengo')">
+              <div class="glyph-big">Tengo</div>
+              <div class="glyph-sub">I have</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Sentence Builder -->
+        <div class="section-block">
+          <div class="block-header"><span>🧱</span> Live Sentence Builder</div>
+          
+          <div class="builder-box">
+            <div class="builder-label">1. Key:</div>
+            <div class="chip-scroll" id="u2-keys">
+              <button class="chip-btn active" onclick="setU2('key', 'Quiero', 'I want', this)">Quiero</button>
+              <button class="chip-btn" onclick="setU2('key', 'Necesito', 'I need', this)">Necesito</button>
+              <button class="chip-btn" onclick="setU2('key', 'Tengo', 'I have', this)">Tengo</button>
+              <button class="chip-btn" onclick="setU2('key', 'No quiero', 'I don\'t want', this)">No quiero</button>
+              <button class="chip-btn" onclick="setU2('key', 'No tengo', 'I don\'t have', this)">No tengo</button>
+            </div>
+
+            <div class="builder-label">2. Item:</div>
+            <div class="chip-scroll" id="u2-items">
+              <button class="chip-btn active" onclick="setU2('item', 'un café', 'a coffee', this)">un café</button>
+              <button class="chip-btn" onclick="setU2('item', 'agua', 'water', this)">agua</button>
+              <button class="chip-btn" onclick="setU2('item', 'la cuenta', 'the check', this)">la cuenta</button>
+              <button class="chip-btn" onclick="setU2('item', 'un taxi', 'a taxi', this)">un taxi</button>
+              <button class="chip-btn" onclick="setU2('item', 'ayuda', 'help', this)">ayuda</button>
+              <button class="chip-btn" onclick="setU2('item', 'tiempo', 'time', this)">tiempo</button>
+            </div>
+
+            <div class="builder-screen">
+              <div class="builder-es" id="u2-out-es">Quiero un café, por favor.</div>
+              <div class="builder-en" id="u2-out-en">I want a coffee, please.</div>
+              <button class="btn-speak-main" onclick="speak(document.getElementById('u2-out-es').textContent)">
+                <span>🔊</span> Listen
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UNIT 3 -->
+      <div id="unit-view-3" class="unit-section-view" style="display:none;">
+        <div class="unit-banner">
+          <span class="unit-badge">Unit 3 • Travel & Questions</span>
+          <h2>Where is...? & Numbers</h2>
+          <p>Ask directions, find places, and count 1 to 10.</p>
+        </div>
+
+        <div class="section-block">
+          <div class="block-header"><span>❓</span> 2 Travel Questions</div>
+          <div class="phrase-row" onclick="speak('¿Dónde está el baño, por favor?')">
+            <div>
+              <div class="phrase-es">¿Dónde está...?</div>
+              <div class="phrase-en">Where is...?</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+          <div class="phrase-row" onclick="speak('¿Cuánto cuesta esto?')">
+            <div>
+              <div class="phrase-es">¿Cuánto cuesta esto?</div>
+              <div class="phrase-en">How much does this cost?</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="block-header"><span>📍</span> Essential Places</div>
+          <div class="grid-2">
+            <div class="tap-card" onclick="speak('el baño')">
+              <div class="glyph-big" style="font-size:1.2rem;">el baño 🚻</div>
+              <div class="glyph-sub">bathroom</div>
+            </div>
+            <div class="tap-card" onclick="speak('el hotel')">
+              <div class="glyph-big" style="font-size:1.2rem;">el hotel 🏨</div>
+              <div class="glyph-sub">hotel</div>
+            </div>
+            <div class="tap-card" onclick="speak('el restaurante')">
+              <div class="glyph-big" style="font-size:1.2rem;">el restaurante 🍽️</div>
+              <div class="glyph-sub">restaurant</div>
+            </div>
+            <div class="tap-card" onclick="speak('la estación')">
+              <div class="glyph-big" style="font-size:1.2rem;">la estación 🚉</div>
+              <div class="glyph-sub">station</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="block-header"><span>🔢</span> Numbers 1 to 10</div>
+          <div class="grid-3">
+            <div class="tap-card" onclick="speak('uno')"><strong>1</strong> uno</div>
+            <div class="tap-card" onclick="speak('dos')"><strong>2</strong> dos</div>
+            <div class="tap-card" onclick="speak('tres')"><strong>3</strong> tres</div>
+            <div class="tap-card" onclick="speak('cuatro')"><strong>4</strong> cuatro</div>
+            <div class="tap-card" onclick="speak('cinco')"><strong>5</strong> cinco</div>
+            <div class="tap-card" onclick="speak('seis')"><strong>6</strong> seis</div>
+            <div class="tap-card" onclick="speak('siete')"><strong>7</strong> siete</div>
+            <div class="tap-card" onclick="speak('ocho')"><strong>8</strong> ocho</div>
+            <div class="tap-card" onclick="speak('nueve')"><strong>9</strong> nueve</div>
+            <div class="tap-card" onclick="speak('diez')"><strong>10</strong> diez</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UNIT 4 (NEW!) -->
+      <div id="unit-view-4" class="unit-section-view" style="display:none;">
+        <div class="unit-banner">
+          <span class="unit-badge">Unit 4 • Real World Practice</span>
+          <h2>Food, Drinks & Ordering</h2>
+          <p>Order at any café or restaurant like a native speaker.</p>
+        </div>
+
+        <div class="section-block">
+          <div class="block-header"><span>🍽️</span> 2 Magic Ordering Phrases</div>
+          <div class="phrase-row" onclick="speak('Para mí, un café, por favor.')">
+            <div>
+              <div class="phrase-es">Para mí...</div>
+              <div class="phrase-en">For me... (Native way to order!)</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+          <div class="phrase-row" onclick="speak('Me gustaría una ensalada.')">
+            <div>
+              <div class="phrase-es">Me gustaría...</div>
+              <div class="phrase-en">I would like... (Very polite)</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="block-header"><span>🥐</span> Core Food & Drinks</div>
+          <div class="grid-2">
+            <div class="tap-card" onclick="speak('el agua mineral')">
+              <div class="glyph-big" style="font-size:1.15rem;">el agua 💧</div>
+              <div class="glyph-sub">water</div>
+            </div>
+            <div class="tap-card" onclick="speak('el pan')">
+              <div class="glyph-big" style="font-size:1.15rem;">el pan 🥖</div>
+              <div class="glyph-sub">bread</div>
+            </div>
+            <div class="tap-card" onclick="speak('el pollo')">
+              <div class="glyph-big" style="font-size:1.15rem;">el pollo 🍗</div>
+              <div class="glyph-sub">chicken</div>
+            </div>
+            <div class="tap-card" onclick="speak('la carne')">
+              <div class="glyph-big" style="font-size:1.15rem;">la carne 🥩</div>
+              <div class="glyph-sub">meat / beef</div>
+            </div>
+            <div class="tap-card" onclick="speak('la ensalada')">
+              <div class="glyph-big" style="font-size:1.15rem;">la ensalada 🥗</div>
+              <div class="glyph-sub">salad</div>
+            </div>
+            <div class="tap-card" onclick="speak('la cerveza')">
+              <div class="glyph-big" style="font-size:1.15rem;">la cerveza 🍺</div>
+              <div class="glyph-sub">beer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="block-header"><span>✨</span> Customizing: "Con" vs. "Sin"</div>
+          <div class="block-desc"><strong>Con</strong> = With &bull; <strong>Sin</strong> = Without</div>
+          <div class="phrase-row" onclick="speak('Un café con leche, por favor.')">
+            <div>
+              <div class="phrase-es">con leche</div>
+              <div class="phrase-en">with milk (e.g. café con leche)</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+          <div class="phrase-row" onclick="speak('Un café sin azúcar, por favor.')">
+            <div>
+              <div class="phrase-es">sin azúcar</div>
+              <div class="phrase-en">without sugar</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+        </div>
+
+        <!-- Order Builder -->
+        <div class="section-block">
+          <div class="block-header"><span>☕</span> Cafe Order Simulator</div>
+          <div class="builder-box">
+            <div class="builder-label">Order Starter:</div>
+            <div class="chip-scroll">
+              <button class="chip-btn active" onclick="setU4('starter', 'Para mí', 'For me', this)">Para mí</button>
+              <button class="chip-btn" onclick="setU4('starter', 'Quiero', 'I want', this)">Quiero</button>
+              <button class="chip-btn" onclick="setU4('starter', 'Me gustaría', 'I would like', this)">Me gustaría</button>
+            </div>
+
+            <div class="builder-label">Food / Drink:</div>
+            <div class="chip-scroll">
+              <button class="chip-btn active" onclick="setU4('food', 'un café con leche', 'a coffee with milk', this)">un café con leche</button>
+              <button class="chip-btn" onclick="setU4('food', 'una ensalada', 'a salad', this)">una ensalada</button>
+              <button class="chip-btn" onclick="setU4('food', 'pollo con pan', 'chicken with bread', this)">pollo con pan</button>
+              <button class="chip-btn" onclick="setU4('food', 'agua sin gas', 'still water', this)">agua sin gas</button>
+            </div>
+
+            <div class="builder-screen">
+              <div class="builder-es" id="u4-out-es">Para mí un café con leche, por favor.</div>
+              <div class="builder-en" id="u4-out-en">For me a coffee with milk, please.</div>
+              <button class="btn-speak-main" onclick="speak(document.getElementById('u4-out-es').textContent)">
+                <span>🔊</span> Speak Order
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UNIT 5 (NEW!) -->
+      <div id="unit-view-5" class="unit-section-view" style="display:none;">
+        <div class="unit-banner">
+          <span class="unit-badge">Unit 5 • Natural Fluency</span>
+          <h2>Time & Sentence Connectors</h2>
+          <p>Link your ideas together like a native speaker: and, but, because.</p>
+        </div>
+
+        <div class="section-block">
+          <div class="block-header"><span>🔗</span> The 5 Magic Connectors</div>
+          <div class="block-desc">These words turn robot phrases into flowing conversations:</div>
+          <div class="grid-2">
+            <div class="tap-card" onclick="speak('y')">
+              <div class="glyph-big" style="color:var(--accent);">Y</div>
+              <div class="glyph-sub">and</div>
+            </div>
+            <div class="tap-card" onclick="speak('pero')">
+              <div class="glyph-big" style="color:var(--accent);">pero</div>
+              <div class="glyph-sub">but</div>
+            </div>
+            <div class="tap-card" onclick="speak('porque')">
+              <div class="glyph-big" style="color:var(--accent);">porque</div>
+              <div class="glyph-sub">because</div>
+            </div>
+            <div class="tap-card" onclick="speak('también')">
+              <div class="glyph-big" style="color:var(--accent);">también</div>
+              <div class="glyph-sub">also / too</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="block-header"><span>⏰</span> Time & Schedules</div>
+          <div class="phrase-row" onclick="speak('¿Qué hora es?')">
+            <div>
+              <div class="phrase-es">¿Qué hora es?</div>
+              <div class="phrase-en">What time is it?</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+          <div class="phrase-row" onclick="speak('hoy y mañana')">
+            <div>
+              <div class="phrase-es">hoy / mañana</div>
+              <div class="phrase-en">today / tomorrow (silent 'h' in hoy!)</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+          <div class="phrase-row" onclick="speak('ahora o más tarde')">
+            <div>
+              <div class="phrase-es">ahora / más tarde</div>
+              <div class="phrase-en">now / later</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+        </div>
+
+        <!-- Master Sentence Connector Demo -->
+        <div class="section-block">
+          <div class="block-header"><span>🚀</span> Natural Complex Sentences</div>
+          <div class="phrase-row" onclick="speak('Quiero un café pero no tengo dinero.')">
+            <div>
+              <div class="phrase-es">Quiero un café pero no tengo dinero.</div>
+              <div class="phrase-en">I want a coffee, but I don't have money.</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+          <div class="phrase-row" onclick="speak('Necesito un taxi porque no tengo tiempo.')">
+            <div>
+              <div class="phrase-es">Necesito un taxi porque no tengo tiempo.</div>
+              <div class="phrase-en">I need a taxi because I don't have time.</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+          <div class="phrase-row" onclick="speak('Hoy estoy aquí, mañana en el hotel.')">
+            <div>
+              <div class="phrase-es">Hoy aquí, mañana en el hotel.</div>
+              <div class="phrase-en">Today here, tomorrow at the hotel.</div>
+            </div>
+            <div class="btn-audio-mini">🔊 Hear</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 2: FLASHCARDS ==================== -->
+    <div id="tab-flashcards" class="view-panel">
+      <div class="flashcard-wrapper">
+        <h2 style="font-family:'Playfair Display',serif; margin-bottom: 0.3rem;">⚡ Rapid Review</h2>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom: 1.5rem;">Tap card to test your memory on the go.</p>
+
+        <div class="fc-card" onclick="revealCard()">
+          <div class="fc-tag" id="fcTag">Unit 1</div>
+          <div class="fc-word" id="fcWord">Palabra</div>
+          <div class="fc-tip" id="fcTip">Pronunciation</div>
+          <div class="fc-answer" id="fcAnswer">Translation</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:1rem;">(Tap card to reveal)</div>
+        </div>
+
+        <div style="display:flex; justify-content:center; gap:0.75rem;">
+          <button class="btn-speak-main" onclick="speakCard()">🔊 Hear Word</button>
+          <button class="btn-speak-main" style="background:var(--accent); color:#0b1329;" onclick="nextCard()">Next Card →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 3: VOCABULARY BANK ==================== -->
+    <div id="tab-vocab" class="view-panel">
+      <h2 style="font-family:'Playfair Display',serif; margin: 1rem 0 0.2rem;">📖 Master Vocab Bank</h2>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1rem;">All words from Units 1 to 5 (<span id="totalVocabCount">0</span> words)</p>
+
+      <input type="text" class="vocab-search-input" id="vSearch" placeholder="🔍 Search any word or English meaning..." oninput="filterVocab()">
+
+      <div id="vocabListContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom App Navigation Bar -->
+  <nav class="bottom-nav">
+    <button class="nav-tab-btn active" id="btnTabLessons" onclick="openMainTab('lessons')">
+      <span class="tab-icon">📚</span>
+      <span>Lessons</span>
+    </button>
+    <button class="nav-tab-btn" id="btnTabFlashcards" onclick="openMainTab('flashcards')">
+      <span class="tab-icon">⚡</span>
+      <span>Flashcards</span>
+    </button>
+    <button class="nav-tab-btn" id="btnTabVocab" onclick="openMainTab('vocab')">
+      <span class="tab-icon">📖</span>
+      <span>Vocab (<span id="tabVocabNum">0</span>)</span>
+    </button>
+  </nav>
+
+  <script>
+    const allVocab = [
+      { es: "A", en: "Vowel A (ah)", unit: 1, speak: "la letra A, a", tip: "father" },
+      { es: "E", en: "Vowel E (eh)", unit: 1, speak: "la letra E, e", tip: "bed" },
+      { es: "I", en: "Vowel I (ee)", unit: 1, speak: "la letra I, i", tip: "see" },
+      { es: "O", en: "Vowel O (oh)", unit: 1, speak: "la letra O, o", tip: "open" },
+      { es: "U", en: "Vowel U (oo)", unit: 1, speak: "la letra U, u", tip: "moon" },
+      { es: "¡Hola!", en: "Hello! (Silent H)", unit: 1, speak: "¡Hola!", tip: "OH-lah" },
+      { es: "Me llamo", en: "My name is (LL = 'y')", unit: 1, speak: "Me llamo", tip: "meh YAH-moh" },
+      { es: "Mañana", en: "Tomorrow (Ñ = 'ny')", unit: 1, speak: "Mañana", tip: "mahn-YAH-nah" },
+
+      { es: "Quiero", en: "I want", unit: 2, speak: "Quiero", tip: "kee-EH-roh" },
+      { es: "Necesito", en: "I need", unit: 2, speak: "Necesito", tip: "neh-seh-SEE-toh" },
+      { es: "Tengo", en: "I have", unit: 2, speak: "Tengo", tip: "TEN-goh" },
+      { es: "No tengo", en: "I don't have", unit: 2, speak: "No tengo", tip: "noh TEN-goh" },
+      { es: "un café", en: "a coffee", unit: 2, speak: "un café", tip: "oon kah-FEH" },
+      { es: "agua", en: "water", unit: 2, speak: "agua", tip: "AH-gwah" },
+      { es: "la cuenta", en: "the bill / check", unit: 2, speak: "la cuenta", tip: "lah KWEN-tah" },
+      { es: "un taxi", en: "a taxi", unit: 2, speak: "un taxi", tip: "oon TAHK-see" },
+      { es: "ayuda", en: "help", unit: 2, speak: "ayuda", tip: "ah-YOO-dah" },
+      { es: "tiempo", en: "time", unit: 2, speak: "tiempo", tip: "tee-EM-poh" },
+      { es: "por favor", en: "please", unit: 2, speak: "por favor", tip: "pohr fah-VOHR" },
+      { es: "gracias", en: "thank you", unit: 2, speak: "gracias", tip: "GRAH-see-ahs" },
+
+      { es: "¿Dónde está...?", en: "Where is...?", unit: 3, speak: "¿Dónde está?", tip: "DOHN-deh ehs-TAH" },
+      { es: "¿Cuánto cuesta esto?", en: "How much is this?", unit: 3, speak: "¿Cuánto cuesta esto?", tip: "KWAHN-toh KWEHS-tah EHS-toh" },
+      { es: "el baño", en: "the bathroom", unit: 3, speak: "el baño", tip: "el BAHN-yoh" },
+      { es: "el hotel", en: "the hotel", unit: 3, speak: "el hotel", tip: "el oh-TEHL" },
+      { es: "el restaurante", en: "the restaurant", unit: 3, speak: "el restaurante", tip: "el rehs-tow-RAHN-teh" },
+      { es: "la estación", en: "the station", unit: 3, speak: "la estación", tip: "lah ehs-tah-SYOHN" },
+      { es: "uno (1)", en: "one", unit: 3, speak: "uno", tip: "OO-noh" },
+      { es: "dos (2)", en: "two", unit: 3, speak: "dos", tip: "dohs" },
+      { es: "tres (3)", en: "three", unit: 3, speak: "tres", tip: "trehs" },
+      { es: "cinco (5)", en: "five", unit: 3, speak: "cinco", tip: "SEEN-koh" },
+      { es: "diez (10)", en: "ten", unit: 3, speak: "diez", tip: "dee-EHS" },
+
+      { es: "Para mí...", en: "For me... (Ordering)", unit: 4, speak: "Para mí", tip: "PAH-rah MEE" },
+      { es: "Me gustaría...", en: "I would like...", unit: 4, speak: "Me gustaría", tip: "meh goos-tah-REE-ah" },
+      { es: "el pan", en: "the bread", unit: 4, speak: "el pan", tip: "el pahn" },
+      { es: "el pollo", en: "the chicken", unit: 4, speak: "el pollo", tip: "el POH-yoh" },
+      { es: "la carne", en: "the meat / steak", unit: 4, speak: "la carne", tip: "lah KAHR-neh" },
+      { es: "la ensalada", en: "the salad", unit: 4, speak: "la ensalada", tip: "lah ehn-sah-LAH-dah" },
+      { es: "la cerveza", en: "the beer", unit: 4, speak: "la cerveza", tip: "lah sehr-VEH-sah" },
+      { es: "con", en: "with", unit: 4, speak: "con", tip: "kohn" },
+      { es: "sin", en: "without", unit: 4, speak: "sin", tip: "seen" },
+      { es: "la leche", en: "the milk", unit: 4, speak: "la leche", tip: "lah LEH-cheh" },
+      { es: "el azúcar", en: "the sugar", unit: 4, speak: "el azúcar", tip: "el ah-SOO-kahr" },
+
+      { es: "y", en: "and", unit: 5, speak: "y", tip: "ee" },
+      { es: "pero", en: "but", unit: 5, speak: "pero", tip: "PEH-roh" },
+      { es: "porque", en: "because", unit: 5, speak: "porque", tip: "POHR-keh" },
+      { es: "también", en: "also / too", unit: 5, speak: "también", tip: "tahm-BYEHN" },
+      { es: "hoy", en: "today", unit: 5, speak: "hoy", tip: "oy (silent h)" },
+      { es: "ahora", en: "now", unit: 5, speak: "ahora", tip: "ah-OH-rah" },
+      { es: "más tarde", en: "later", unit: 5, speak: "más tarde", tip: "mahs TAHR-deh" },
+      { es: "¿Qué hora es?", en: "What time is it?", unit: 5, speak: "¿Qué hora es?", tip: "keh OH-rah ehs" }
+    ];
+
+    document.getElementById('totalVocabCount').textContent = allVocab.length;
+    document.getElementById('tabVocabNum').textContent = allVocab.length;
+
+    let currentSpeed = 1.0;
+    function setSpeed(rate) {
+      currentSpeed = rate;
+      document.getElementById('spd1').classList.toggle('active', rate === 1.0);
+      document.getElementById('spdSlow').classList.toggle('active', rate < 1.0);
+    }
+
+    function speak(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.rate = currentSpeed;
+      u.lang = 'es-MX';
+      window.speechSynthesis.speak(u);
+    }
+
+    function openMainTab(tab) {
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+
+      document.getElementById('tab-' + tab).classList.add('active');
+      document.getElementById('unitRibbon').style.display = (tab === 'lessons') ? 'flex' : 'none';
+
+      if (tab === 'lessons') document.getElementById('btnTabLessons').classList.add('active');
+      if (tab === 'flashcards') {
+        document.getElementById('btnTabFlashcards').classList.add('active');
+        if (!activeFc) nextCard();
+      }
+      if (tab === 'vocab') {
+        document.getElementById('btnTabVocab').classList.add('active');
+        renderVocabList(allVocab);
+      }
+      window.scrollTo(0, 0);
+    }
+
+    function switchUnit(num, btn) {
+      document.querySelectorAll('.unit-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.unit-section-view').forEach(v => v.style.display = 'none');
+      document.getElementById('unit-view-' + num).style.display = 'block';
+      window.scrollTo(0, 0);
+    }
+
+    let u2Key = { es: "Quiero", en: "I want" };
+    let u2Item = { es: "un café", en: "a coffee" };
+    function setU2(type, es, en, btn) {
+      const container = btn.parentElement;
+      container.querySelectorAll('.chip-btn').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      if (type === 'key') u2Key = { es, en };
+      if (type === 'item') u2Item = { es, en };
+      document.getElementById('u2-out-es').textContent = `${u2Key.es} ${u2Item.es}, por favor.`;
+      document.getElementById('u2-out-en').textContent = `${u2Key.en} ${u2Item.en}, please.`;
+    }
+
+    let u4Start = { es: "Para mí", en: "For me" };
+    let u4Food = { es: "un café con leche", en: "a coffee with milk" };
+    function setU4(type, es, en, btn) {
+      const container = btn.parentElement;
+      container.querySelectorAll('.chip-btn').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      if (type === 'starter') u4Start = { es, en };
+      if (type === 'food') u4Food = { es, en };
+      document.getElementById('u4-out-es').textContent = `${u4Start.es} ${u4Food.es}, por favor.`;
+      document.getElementById('u4-out-en').textContent = `${u4Start.en} ${u4Food.en}, please.`;
+    }
+
+    let activeFc = null;
+    function nextCard() {
+      activeFc = allVocab[Math.floor(Math.random() * allVocab.length)];
+      document.getElementById('fcTag').textContent = `Unit ${activeFc.unit}`;
+      document.getElementById('fcWord').textContent = activeFc.es;
+      document.getElementById('fcTip').textContent = `"${activeFc.tip}"`;
+      document.getElementById('fcAnswer').textContent = activeFc.en;
+      document.getElementById('fcAnswer').style.display = 'none';
+    }
+
+    function revealCard() {
+      document.getElementById('fcAnswer').style.display = 'block';
+      if (activeFc) speak(activeFc.speak);
+    }
+
+    function speakCard() {
+      if (activeFc) speak(activeFc.speak);
+    }
+
+    function renderVocabList(items) {
+      const container = document.getElementById('vocabListContainer');
+      container.innerHTML = '';
+      items.forEach(v => {
+        const div = document.createElement('div');
+        div.className = 'vocab-item-row';
+        div.onclick = () => speak(v.speak);
+        div.innerHTML = `
+          <div>
+            <div style="font-weight:700; color:#fff; font-size:1.05rem;">
+              ${v.es} <span class="badge-unit">U${v.unit}</span>
+            </div>
+            <div style="font-size:0.82rem; color:var(--text-muted);">${v.en}</div>
+          </div>
+          <button class="btn-audio-mini">🔊 Hear</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function filterVocab() {
+      const q = document.getElementById('vSearch').value.toLowerCase();
+      const filtered = allVocab.filter(v => v.es.toLowerCase().includes(q) || v.en.toLowerCase().includes(q));
+      renderVocabList(filtered);
+    }
+
+    renderVocabList(allVocab);
+    nextCard();
+  </script>
+</body>
+</html>
